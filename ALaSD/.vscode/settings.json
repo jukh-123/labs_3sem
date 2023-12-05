@@ -1,0 +1,22 @@
+{
+    "files.associations": {
+        "*.html": "html",
+        "iostream": "cpp",
+        "ostream": "cpp",
+        "new": "cpp",
+        "cmath": "cpp",
+        "typeinfo": "cpp",
+        "compare": "cpp",
+        "system_error": "cpp",
+        "*.tcc": "cpp",
+        "memory_resource": "cpp",
+        "type_traits": "cpp",
+        "fstream": "cpp",
+        "utility": "cpp",
+        "random": "cpp",
+        "algorithm": "cpp",
+        "string_view": "cpp",
+        "vector": "cpp",
+        "iosfwd": "cpp"
+    }
+}
