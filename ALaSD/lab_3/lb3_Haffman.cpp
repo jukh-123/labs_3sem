@@ -45,13 +45,13 @@ void HuffmanTree::decode()
 {
     ifstream coded_file("coded.bin", ios::in | ios::binary);
     ofstream encoded_file("encoded.txt");
-    m_pair *p = minHeap[0];
-    size_t count=0; 
+    m_pair *p = minHeap[0]; // починаємо з гори
+    unsigned short int count=0; 
     char byte;
     byte = coded_file.get();
     while(!coded_file.eof())
     {   
-        bool b = byte & (1 << (7-count) ) ;
+        bool b = byte & (1 << (7-count) ) ; // отримуємо значення біту у байті на позиції 7-count
         if (b) 
             p=p->right; 
         else 
@@ -59,7 +59,7 @@ void HuffmanTree::decode()
         if (p->left==NULL && p->right==NULL)  //дійшли до листа (всі букви - листи і всі листи - букви)
         {
             encoded_file << p->symbol;
-            p=minHeap[0]; // йдемо знову зверху
+            p = minHeap[0]; // йдемо знову зверху
         }  
         count++;
         if (count==8) 
@@ -68,6 +68,8 @@ void HuffmanTree::decode()
             byte = coded_file.get(); // розшифровуємо наступний символ
         }
     }
+    coded_file.close();
+    encoded_file.close();
 }
 
 
@@ -78,20 +80,21 @@ void HuffmanTree::write_bit(int bit)
 {
     ifstream input_file("words.txt", ios::out | ios::binary);
     ofstream code_file("coded.bin", ios::out | ios::binary);
-    unsigned short int count=0; 
+    unsigned short int count=0; //лічильник оброблених бітів у байті
     char buf=0;
     char c;
     while (input_file.get(c))
     { 
-        vector<bool> x = table[c];
+        vector<bool> x = table[c]; // значення цього байту згідно дерева Хаффмана
         for(size_t i=0; i<x.size(); i++)
         {
-            buf |= x[i]<<(7-count);  
-            count++;
+            buf |= x[i]<<(7-count);  //зсув ліворуч на 7-count бітів та запис у байт x[i]
+            count++; 
             if (count==8) 
             { 
-                count=0;   
-                code_file<<buf; 
+                  
+                code_file << buf; 
+                count=0; 
                 buf=0; 
             }
        }

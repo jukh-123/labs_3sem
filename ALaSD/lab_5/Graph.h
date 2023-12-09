@@ -3,8 +3,6 @@
 
 
 
-
-#include <vector>
 #include <stack>
 #include <queue>
 #include </home/jukh/PycharmProjects/ALaSD/include.h>
@@ -19,8 +17,8 @@ public:
     ~Graph(){
         ;
     }
-    bool is_connected(vector<unsigned short int> v);
-    vector<vector<int>> DFS();
+    bool is_connected(vector<int> v);
+    vector<int> DFS();
     vector<vector<int>> BFS();
 };
 
@@ -29,7 +27,7 @@ Graph::Graph(size_t number_of_vertex, bool **matrix)
     this->number_of_vertex = number_of_vertex;
     this->matrix = matrix;
 }
-bool Graph::is_connected(vector<unsigned short int> v)
+bool Graph::is_connected(vector<int> v)
 {
     if(v.size() == number_of_vertex)
     {
@@ -79,39 +77,42 @@ vector<vector<int>> Graph::BFS()
         }
         nodes.push_back(node);
     }
-    for (size_t i = 0; i < nodes.size(); i++)
-    {
-        cout << "Вершину "<< i << " було досягнуто за шляхом: ";
-        for(int j = 0; j<edges[i].size(); j++)
-        {
-            cout << edges[i][j];
-            if(j%2 != 0 && j != edges[i].size()-1)
-            {
-                cout << ", ";
-            }
-            else if(j != edges[i].size()-1)
-            {
-                cout << "-";
-            }
-        }
-        cout << endl;
-    }
+    // for (size_t i = 0; i < nodes.size(); i++)
+    // {
+    //     cout << "Вершину "<< i << " було досягнуто за шляхом: ";
+    //     for(int j = 0; j<edges[i].size(); j++)
+    //     {
+    //         cout << edges[i][j];
+    //         if(j%2 != 0 && j != edges[i].size()-1)
+    //         {
+    //             cout << ", ";
+    //         }
+    //         else if(j != edges[i].size()-1)
+    //         {
+    //             cout << "-";
+    //         }
+    //     }
+    //     cout << endl;
+    // }
     return edges;
     
     
 }
 
-vector<vector<int>> Graph::DFS()
+vector<int> Graph::DFS()
 {
     
-    vector<unsigned short int> v;
+    vector<int> v;
     vector<vector<int>> edges_vec;
     edges_vec.reserve(number_of_vertex);
-    
     v.reserve(number_of_vertex);
-    stack<unsigned short int> Stack; 
+
+
+    stack<int> Stack; 
     stack<vector<int>> edges;
-    unsigned short int vertex[7]; // Зберігання станів вершин графу 0 = не відвідана, 1 = знайдена, 2 = відвідана
+
+
+    int *vertex = new int [number_of_vertex]; // Зберігання станів вершин графу 0 = не відвідана, 1 = знайдена, 2 = відвідана
 
     for (size_t i = 0; i < number_of_vertex; i++)
     {
@@ -126,7 +127,7 @@ vector<vector<int>> Graph::DFS()
 
     while (!Stack.empty())
     {
-        unsigned short int node = Stack.top(); //беремо індекс найближчої за індексом вершини (наприклад до 1 найближча 2) і видаляємо її зі стеку
+        int node = Stack.top(); //беремо індекс найближчої за індексом вершини (наприклад до 1 найближча 2) і видаляємо її зі стеку
         Stack.pop();
         
         vector<int> tmp = edges.top();//Беремо шлях до цієї вершини і видаляємо його зі стеку
@@ -157,18 +158,19 @@ vector<vector<int>> Graph::DFS()
         edges_vec.push_back(tmp);
         v.push_back(node);
     }
+    //якщо 0ва вершина не є зв'язаною з графом????
     is_connected(v);
     
-    for (size_t i = 0; i < v.size(); i++)
-    {
-        cout << "Вершину " << v[i] << " вперше було досягнуто по ребру: ";
-        for (size_t j = 0; j < 2; j++)
-        {
-            cout << edges_vec[i][j] << " ";
-        }
-        cout << endl;
-    }
+    // for (size_t i = 0; i < v.size(); i++)
+    // {
+    //     cout << "Вершину " << v[i] << " вперше було досягнуто по ребру: ";
+    //     for (size_t j = 0; j < 2; j++)
+    //     {
+    //         cout << edges_vec[i][j] << " ";
+    //     }
+    //     cout << endl;
+    // }
     
     
-    return edges_vec;
+    return v;
 }
